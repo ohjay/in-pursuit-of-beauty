@@ -8,7 +8,9 @@ I create a 3D scene, along with a corresponding top-down stylization map that de
 
 I use a real-time implementation of CycleGAN.
 
-(alternative idea: 3D Lego mapping)
+Final project idea: add music as well. Associate some relevant music with each stylization extreme (e.g. "most beautiful" aligns with beautiful-sounding music), and use MusicVAE to interpolate between the sounds as the user walks through the scene (MIDI is fine, synthesize using something simple). The problem is doing all of this in real-time.
+
+Alternative final project idea: interactive drum-type music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and determine stylization. Could also control stylization with phone motion in this project. If pointed upward (or in a specific direction), more beautiful (or less chaotic). If pointed downward, less beautiful (or more chaotic). Symbolizes discipline and the chaos that results from loss of control. This could be an additional option which would switch from stylizing based on the top-down map.
 
 ## Model/Data
 
