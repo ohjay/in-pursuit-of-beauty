@@ -1,3 +1,5 @@
 output.png
+input_downscaled*.png
+output_downscaled*.png
 __pycache__/
 pytorch_AdaIN.egg-info/
