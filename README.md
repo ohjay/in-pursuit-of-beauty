@@ -6,7 +6,7 @@ Owen Jow, owen@eng.ucsd.edu
 
 I create a 3D scene, along with a corresponding top-down stylization map that describes how each part of the scene should be stylized. The map is smooth; I mark points in the scene which will have certain style targets, and interpolate between those style targets (weighted by distance) to arrive at the final desired style for each location. Then, I allow users to interactively walk around the scene, with the final rendering for each viewpoint determined as a stylized version of a fast OpenGL render. The idea is that some parts of the scene are intentionally stylized to be "more beautiful" than others, and the user can, if he/she chooses, search for this beauty. Also, in keeping with the theme from my past projects, I include a [chicken](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316) in the scene, which is the target (and the high point) in the search because chickens are beautiful.
 
-I use [Panda3D](https://www.panda3d.org/) for rendering, and [TODO](TODO) for arbitrary style transfer.
+I use [Panda3D](https://www.panda3d.org/) for rendering, and [`pytorch-AdaIN`](https://github.com/naoto0804/pytorch-AdaIN) for arbitrary style transfer.
 
 | More "Beautiful" | Less "Beautiful"     |
 | ---------------- | -------------------- |
@@ -52,7 +52,10 @@ Any implementation details or notes we need to repeat your work.
 
 ## References
 
-References to any papers, techniques, repositories you used:
 - Papers
+  - [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/pdf/1703.06868.pdf)
 - Repositories
-- Blog posts
+  - [`pytorch-AdaIN`](https://github.com/naoto0804/pytorch-AdaIN)
+- Other
+  - [Panda3D Manual](https://www.panda3d.org/manual/)
+  - [NumPy arrays from Panda3D textures - gist by Alex Lee](https://gist.github.com/alexlee-gk/b28fb962c9b2da586d1591bac8888f1f)
