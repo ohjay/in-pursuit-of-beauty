@@ -27,6 +27,8 @@ I use [Panda3D](https://www.panda3d.org/) for rendering, and [`pytorch-AdaIN`](h
 
 ## Model/Data
 
+- Download pre-trained models according to the ["Download models" section](https://github.com/naoto0804/pytorch-AdaIN#download-models) of the `pytorch-AdaIN` repo.
+
 Briefly describe the files that are included with your repository:
 - trained models
 - training data (or link to training data)
