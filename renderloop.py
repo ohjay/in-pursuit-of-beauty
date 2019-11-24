@@ -10,6 +10,7 @@ from pynput import keyboard
 
 loadPrcFileData('', 'window-type offscreen')
 loadPrcFileData('', 'sync-video 0')
+loadPrcFileData('', 'load-file-type p3assimp')
 
 KEY_A = keyboard.KeyCode.from_char('a')
 KEY_S = keyboard.KeyCode.from_char('s')
@@ -87,6 +88,14 @@ class BeautyApp(ShowBase):
         self.scene.setScale(0.25, 0.25, 0.25)
         self.scene.setPos(-8, 42, 0)
 
+        # add chicken model
+        self.chicken = self.loader.loadModel('scene/chicken_01.obj')
+        self.chicken.reparentTo(self.render)
+        self.chicken.setScale(0.1, 0.1, 0.1)
+        self.chicken.setTexture(
+            self.loader.loadTexture('scene/chicken_01.tga'), 1)
+        self.chicken.setP(self.chicken, 90)
+
         # Needed for camera image
         self.dr = self.camNode.getDisplayRegion(0)
 
@@ -116,7 +125,7 @@ if __name__ == '__main__':
     window_name = 'IN PURSUIT OF BEAUTY'
     output_window = OutputWindow(window_name)
 
-    frames = 1800
+    frames = 10000
     radius = 20
     pos_step = 0.2
     yaw_step = 0.5
@@ -151,7 +160,7 @@ if __name__ == '__main__':
             new_y = curr_pos.y + right.y * pos_step
             app.cam.setPos(new_x, new_y, 3)
             update = True
-        elif output_window.is_pressed['forward']:
+        if output_window.is_pressed['forward']:
             forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
             curr_pos = app.cam.getPos()
             new_x = curr_pos.x + forward.x * pos_step

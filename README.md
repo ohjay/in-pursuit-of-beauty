@@ -50,7 +50,9 @@ python3 renderloop.py
 
 Documentation of your results in an appropriate format, both links to files and a brief description of their contents:
 - image files (`.jpg`, `.png` or whatever else is appropriate)
-- movie files (uploaded to youtube due to github file size limits)
+- movie files (uploaded to YouTube due to GitHub file size limits)
+
+I get X FPS with regular mode, X FPS with fast mode (X resolution, X hardware).
 
 ## Technical Notes
 
@@ -65,3 +67,4 @@ Documentation of your results in an appropriate format, both links to files and 
 - Other
   - [Panda3D Manual](https://www.panda3d.org/manual/)
   - [NumPy arrays from Panda3D textures - gist by Alex Lee](https://gist.github.com/alexlee-gk/b28fb962c9b2da586d1591bac8888f1f)
+  - [The chicken model was made by SHULDYAKOV.](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316)
