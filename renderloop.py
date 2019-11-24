@@ -146,7 +146,7 @@ if __name__ == '__main__':
     frames = 99999
     pos_step = 0.2
     yaw_step = 0.5
-    scene_scale = 100
+    scene_scale = 150
     start_time = time.time()
 
     # init height to 3
@@ -203,18 +203,17 @@ if __name__ == '__main__':
 
             if not args.no_style:
                 # determine style interpolation
-                chicken_direction = chicken_pos - app.cam.getPos()
+                chicken_direction = chicken_pos.xy - app.cam.getPos().xy
                 chicken_distance = np.sqrt(
                     chicken_direction.x * chicken_direction.x + \
-                    chicken_direction.y * chicken_direction.y + \
-                    chicken_direction.z * chicken_direction.z)
+                    chicken_direction.y * chicken_direction.y)
                 forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
-                forward = forward.normalized()
+                forward = forward.xy.normalized()
                 chicken_direction = chicken_direction.normalized()
                 cosine = \
                     forward.x * chicken_direction.x + \
-                    forward.y * chicken_direction.y + \
-                    forward.z * chicken_direction.z
+                    forward.y * chicken_direction.y
+                chicken_distance = max(chicken_distance - 15, 0)
                 chicken_weight = (cosine + 1) * 0.5 * \
                     np.clip((1 - chicken_distance / scene_scale), 0, 1)
                 interp_weights = [1 - chicken_weight, chicken_weight]
