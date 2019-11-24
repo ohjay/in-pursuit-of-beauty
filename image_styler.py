@@ -36,6 +36,11 @@ class ImageStyler:
 
     def transfer(self, content, style,
                  preserve_color=False, alpha=1.0, interpolation_weights=None):
+        """
+        CONTENT is always a single image.
+        STYLE can be either a single image or a list of images.
+        If STYLE is a list of images, you must also pass a list of INTERPOLATION_WEIGHTS.
+        """
         if interpolation_weights:
             # one content image, N style images
             style = torch.stack([self.style_tf(s) for s in style])

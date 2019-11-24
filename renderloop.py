@@ -9,9 +9,13 @@ from image_styler import ImageStyler
 from pynput import keyboard
 import lycon
 
+WINDOW_W = 600
+WINDOW_H = 450
+
 loadPrcFileData('', 'window-type offscreen')
 loadPrcFileData('', 'sync-video 0')
 loadPrcFileData('', 'load-file-type p3assimp')
+loadPrcFileData('', 'win-size {w} {h}'.format(w=WINDOW_W, h=WINDOW_H))
 
 KEY_A = keyboard.KeyCode.from_char('a')
 KEY_S = keyboard.KeyCode.from_char('s')
@@ -133,12 +137,11 @@ if __name__ == '__main__':
         imageio.imread('sketch.jpg'),
         imageio.imread('pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg'),
     ]
-    for i in range(1, len(styles)):
-        if styles[i].shape[:2] != styles[0].shape[:2]:
-            styles[i] = lycon.resize(styles[i],
-                                     width=styles[0].shape[1],
-                                     height=styles[0].shape[0],
-                                     interpolation=lycon.Interpolation.CUBIC)
+    for i in range(len(styles)):
+        styles[i] = lycon.resize(styles[i],
+                                 width=WINDOW_W,
+                                 height=WINDOW_H,
+                                 interpolation=lycon.Interpolation.CUBIC)
 
     app = BeautyApp()
     window_name = 'IN PURSUIT OF BEAUTY'
@@ -147,6 +150,9 @@ if __name__ == '__main__':
     frames = 99999
     pos_step = 0.2
     yaw_step = 0.5
+    if not args.no_style:
+        pos_step *= 2  # stylization is slow
+        yaw_step *= 2  # so: speed things up
     scene_scale = 150
     start_time = time.time()
 
@@ -220,12 +226,12 @@ if __name__ == '__main__':
                     np.clip((1 - chicken_distance / scene_scale), 0, 1)
                 interp_weights = [1 - chicken_weight, chicken_weight]
 
-                style = interp_weights[0] * styles[0] + interp_weights[0] * styles[1]
-                style = np.clip(style, 0, 255).astype(np.uint8)
-
                 # stylization
                 image = np.copy(image)
-                image = styler.transfer(image, style)
+                if len(styles) > 1:
+                    image = styler.transfer(image, styles, interpolation_weights=interp_weights)
+                else:
+                    image = styler.transfer(image, styles[0], alpha=chicken_weight)
                 image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
             image = image[:, :, ::-1]  # RGB -> BGR
 
