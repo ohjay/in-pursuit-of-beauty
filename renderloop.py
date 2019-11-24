@@ -49,16 +49,22 @@ class OutputWindow:
     def on_key_press(self, key):
         if key == keyboard.Key.left:
             self.is_pressed['left'] = True
+            self.is_pressed['right'] = False
         elif key == keyboard.Key.right:
             self.is_pressed['right'] = True
+            self.is_pressed['left'] = False
         elif key == keyboard.Key.up:
             self.is_pressed['forward'] = True
+            self.is_pressed['backward'] = False
         elif key == keyboard.Key.down:
             self.is_pressed['backward'] = True
+            self.is_pressed['forward'] = False
         elif key == KEY_A:
             self.is_pressed['yaw-left'] = True
+            self.is_pressed['yaw-right'] = False
         elif key == KEY_S:
             self.is_pressed['yaw-right'] = True
+            self.is_pressed['yaw-left'] = False
 
     def on_key_release(self, key):
         if key == keyboard.Key.left:
@@ -118,6 +124,7 @@ if __name__ == '__main__':
     parser.add_argument('--vgg_ckpt_path',     type=str, default='pytorch-AdaIN/models/vgg_normalised.pth')
     parser.add_argument('--decoder_ckpt_path', type=str, default='pytorch-AdaIN/models/decoder.pth')
     parser.add_argument('--fast', action='store_true')
+    parser.add_argument('--no_style', action='store_true')
     args = parser.parse_args()
 
     styler = ImageStyler(args.vgg_ckpt_path, args.decoder_ckpt_path)
@@ -194,30 +201,31 @@ if __name__ == '__main__':
             app.graphicsEngine.renderFrame()
             image = app.get_camera_image()
 
-            # determine style interpolation
-            chicken_direction = chicken_pos - app.cam.getPos()
-            chicken_distance = np.sqrt(
-                chicken_direction.x * chicken_direction.x + \
-                chicken_direction.y * chicken_direction.y + \
-                chicken_direction.z * chicken_direction.z)
-            forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
-            forward = forward.normalized()
-            chicken_direction = chicken_direction.normalized()
-            cosine = \
-                forward.x * chicken_direction.x + \
-                forward.y * chicken_direction.y + \
-                forward.z * chicken_direction.z
-            chicken_weight = (cosine + 1) * 0.5 * \
-                np.clip((1 - chicken_distance / scene_scale), 0, 1)
-            interp_weights = [1 - chicken_weight, chicken_weight]
+            if not args.no_style:
+                # determine style interpolation
+                chicken_direction = chicken_pos - app.cam.getPos()
+                chicken_distance = np.sqrt(
+                    chicken_direction.x * chicken_direction.x + \
+                    chicken_direction.y * chicken_direction.y + \
+                    chicken_direction.z * chicken_direction.z)
+                forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
+                forward = forward.normalized()
+                chicken_direction = chicken_direction.normalized()
+                cosine = \
+                    forward.x * chicken_direction.x + \
+                    forward.y * chicken_direction.y + \
+                    forward.z * chicken_direction.z
+                chicken_weight = (cosine + 1) * 0.5 * \
+                    np.clip((1 - chicken_distance / scene_scale), 0, 1)
+                interp_weights = [1 - chicken_weight, chicken_weight]
 
-            style = interp_weights[0] * styles[0] + interp_weights[0] * styles[1]
-            style = np.clip(style, 0, 255).astype(np.uint8)
+                style = interp_weights[0] * styles[0] + interp_weights[0] * styles[1]
+                style = np.clip(style, 0, 255).astype(np.uint8)
 
-            # stylization
-            image = np.copy(image)
-            image = styler.transfer(image, style)
-            image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
+                # stylization
+                image = np.copy(image)
+                image = styler.transfer(image, style)
+                image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
             image = image[:, :, ::-1]  # RGB -> BGR
 
         # show
