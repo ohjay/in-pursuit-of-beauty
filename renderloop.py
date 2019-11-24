@@ -4,7 +4,7 @@ import numpy as np
 import time
 import cv2
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import loadPrcFileData
+from panda3d.core import loadPrcFileData, Vec3
 from image_styler import ImageStyler
 from pynput import keyboard
 
@@ -20,13 +20,13 @@ class OutputWindow:
         self.window_name = window_name
 
         # Store which keys are currently pressed.
-        self.key_state = {
+        self.is_pressed = {
             'left':      False,
             'right':     False,
             'forward':   False,
             'backward':  False,
-            'cam-left':  False,
-            'cam-right': False
+            'yaw-left':  False,
+            'yaw-right': False
         }
 
         self.listener = keyboard.Listener(
@@ -46,31 +46,31 @@ class OutputWindow:
 
     def on_key_press(self, key):
         if key == keyboard.Key.left:
-            self.key_state['left'] = True
+            self.is_pressed['left'] = True
         elif key == keyboard.Key.right:
-            self.key_state['right'] = True
+            self.is_pressed['right'] = True
         elif key == keyboard.Key.up:
-            self.key_state['up'] = True
+            self.is_pressed['forward'] = True
         elif key == keyboard.Key.down:
-            self.key_state['down'] = True
+            self.is_pressed['backward'] = True
         elif key == KEY_A:
-            self.key_state['cam-left'] = True
+            self.is_pressed['yaw-left'] = True
         elif key == KEY_S:
-            self.key_state['cam-right'] = True
+            self.is_pressed['yaw-right'] = True
 
     def on_key_release(self, key):
         if key == keyboard.Key.left:
-            self.key_state['left'] = False
+            self.is_pressed['left'] = False
         elif key == keyboard.Key.right:
-            self.key_state['right'] = False
+            self.is_pressed['right'] = False
         elif key == keyboard.Key.up:
-            self.key_state['up'] = False
+            self.is_pressed['forward'] = False
         elif key == keyboard.Key.down:
-            self.key_state['down'] = False
+            self.is_pressed['backward'] = False
         elif key == KEY_A:
-            self.key_state['cam-left'] = False
+            self.is_pressed['yaw-left'] = False
         elif key == KEY_S:
-            self.key_state['cam-right'] = False
+            self.is_pressed['yaw-right'] = False
 
 
 class BeautyApp(ShowBase):
@@ -118,22 +118,64 @@ if __name__ == '__main__':
 
     frames = 1800
     radius = 20
-    step = 0.1
+    pos_step = 0.2
+    yaw_step = 0.5
     start_time = time.time()
 
-    for t in range(frames):
-        angleDegrees = t * step
-        angleRadians = angleDegrees * (np.pi / 180.0)
-        app.cam.setPos(radius * np.sin(angleRadians), -radius * np.cos(angleRadians), 3)
-        app.cam.setHpr(angleDegrees, 0, 0)
-        app.graphicsEngine.renderFrame()
-        image = app.get_camera_image()
+    # init height to 3
+    app.cam.setPos(0, 0, 3)
 
-        # stylization
-        image = np.copy(image)
-        image = styler.transfer(image, style)
-        image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
-        image = image[:, :, ::-1]  # RGB -> BGR
+    for t in range(frames):
+        update = (t == 0)
+
+        # update yaw
+        if output_window.is_pressed['yaw-left']:
+            app.cam.setHpr(app.cam.getH() + yaw_step, 0, 0)
+            update = True
+        elif output_window.is_pressed['yaw-right']:
+            app.cam.setHpr(app.cam.getH() - yaw_step, 0, 0)
+            update = True
+
+        # update pos
+        if output_window.is_pressed['left']:
+            right = app.render.getRelativeVector(app.cam, Vec3(1, 0, 0))
+            curr_pos = app.cam.getPos()
+            new_x = curr_pos.x - right.x * pos_step
+            new_y = curr_pos.y - right.y * pos_step
+            app.cam.setPos(new_x, new_y, 3)
+            update = True
+        elif output_window.is_pressed['right']:
+            right = app.render.getRelativeVector(app.cam, Vec3(1, 0, 0))
+            curr_pos = app.cam.getPos()
+            new_x = curr_pos.x + right.x * pos_step
+            new_y = curr_pos.y + right.y * pos_step
+            app.cam.setPos(new_x, new_y, 3)
+            update = True
+        elif output_window.is_pressed['forward']:
+            forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
+            curr_pos = app.cam.getPos()
+            new_x = curr_pos.x + forward.x * pos_step
+            new_y = curr_pos.y + forward.y * pos_step
+            app.cam.setPos(new_x, new_y, 3)
+            update = True
+        elif output_window.is_pressed['backward']:
+            forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
+            curr_pos = app.cam.getPos()
+            new_x = curr_pos.x - forward.x * pos_step
+            new_y = curr_pos.y - forward.y * pos_step
+            app.cam.setPos(new_x, new_y, 3)
+            update = True
+
+        if update:
+            # render
+            app.graphicsEngine.renderFrame()
+            image = app.get_camera_image()
+
+            # stylization
+            image = np.copy(image)
+            image = styler.transfer(image, style)
+            image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
+            image = image[:, :, ::-1]  # RGB -> BGR
 
         # show
         if not output_window.show_rgb_image(image):

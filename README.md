@@ -36,6 +36,16 @@ Also (artistic interpretations): characterizes the subjective and relative natur
 Your code for generating your project:
 - Python: generative_code.py
 
+## Usage
+
+```
+python3 renderloop.py
+```
+
+- You can change the camera position with the arrow keys.
+- You can change the camera yaw with the A and S keys.
+- You can quit the program using Q or ESC.
+
 ## Results
 
 Documentation of your results in an appropriate format, both links to files and a brief description of their contents:
