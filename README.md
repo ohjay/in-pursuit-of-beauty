@@ -8,6 +8,8 @@ I create a 3D scene, along with a corresponding top-down stylization map that de
 
 I use [Panda3D](https://www.panda3d.org/) for rendering, and [`pytorch-AdaIN`](https://github.com/naoto0804/pytorch-AdaIN) for arbitrary style transfer.
 
+Also (artistic interpretations): characterizes the subjective and relative nature of beauty. If I intentionally try to make things less beautiful, it may make other things appear more beautiful by comparison. Furthermore, the chicken only represents my subjective preference for the aesthetic quality of that stylization; others may find other parts of the scene more or less beautiful and that is okay too. Finally, raises another question about beauty: how much is about style, how much is about content?
+
 | More "Beautiful" | Less "Beautiful"     |
 | ---------------- | -------------------- |
 | Vibrant colors   | Monochromatism       |
