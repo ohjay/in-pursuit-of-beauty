@@ -7,6 +7,7 @@ from direct.showbase.ShowBase import ShowBase
 from panda3d.core import loadPrcFileData, Vec3
 from image_styler import ImageStyler
 from pynput import keyboard
+import lycon
 
 loadPrcFileData('', 'window-type offscreen')
 loadPrcFileData('', 'sync-video 0')
@@ -116,23 +117,36 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--vgg_ckpt_path',     type=str, default='pytorch-AdaIN/models/vgg_normalised.pth')
     parser.add_argument('--decoder_ckpt_path', type=str, default='pytorch-AdaIN/models/decoder.pth')
+    parser.add_argument('--fast', action='store_true')
     args = parser.parse_args()
 
     styler = ImageStyler(args.vgg_ckpt_path, args.decoder_ckpt_path)
-    style = imageio.imread('pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg')
+    styles = [
+        imageio.imread('sketch.jpg'),
+        imageio.imread('pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg'),
+    ]
+    for i in range(1, len(styles)):
+        if styles[i].shape[:2] != styles[0].shape[:2]:
+            styles[i] = lycon.resize(styles[i],
+                                     width=styles[0].shape[1],
+                                     height=styles[0].shape[0],
+                                     interpolation=lycon.Interpolation.CUBIC)
 
     app = BeautyApp()
     window_name = 'IN PURSUIT OF BEAUTY'
     output_window = OutputWindow(window_name)
 
-    frames = 10000
-    radius = 20
+    frames = 99999
     pos_step = 0.2
     yaw_step = 0.5
+    scene_scale = 100
     start_time = time.time()
 
     # init height to 3
     app.cam.setPos(0, 0, 3)
+
+    # cache chicken pos
+    chicken_pos = app.chicken.getPos()
 
     for t in range(frames):
         update = (t == 0)
@@ -179,6 +193,26 @@ if __name__ == '__main__':
             # render
             app.graphicsEngine.renderFrame()
             image = app.get_camera_image()
+
+            # determine style interpolation
+            chicken_direction = chicken_pos - app.cam.getPos()
+            chicken_distance = np.sqrt(
+                chicken_direction.x * chicken_direction.x + \
+                chicken_direction.y * chicken_direction.y + \
+                chicken_direction.z * chicken_direction.z)
+            forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
+            forward = forward.normalized()
+            chicken_direction = chicken_direction.normalized()
+            cosine = \
+                forward.x * chicken_direction.x + \
+                forward.y * chicken_direction.y + \
+                forward.z * chicken_direction.z
+            chicken_weight = (cosine + 1) * 0.5 * \
+                np.clip((1 - chicken_distance / scene_scale), 0, 1)
+            interp_weights = [1 - chicken_weight, chicken_weight]
+
+            style = interp_weights[0] * styles[0] + interp_weights[0] * styles[1]
+            style = np.clip(style, 0, 255).astype(np.uint8)
 
             # stylization
             image = np.copy(image)

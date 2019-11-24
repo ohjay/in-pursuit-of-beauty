@@ -1,3 +1,4 @@
 panda3d==1.10.4.1
 lycon==0.2.0
 pynput==1.4.5
+imageio==2.5.0
