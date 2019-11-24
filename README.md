@@ -27,14 +27,14 @@ Also (artistic interpretations): characterizes the subjective and relative natur
 
 - Interactive drum-type music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and determine stylization. Could also control stylization with phone motion in this project. If pointed upward (or in a specific direction), more beautiful (or less chaotic). If pointed downward, less beautiful (or more chaotic). Symbolizes discipline and the chaos that results from loss of control. This could be an additional option which would switch from stylizing based on the top-down map.
 
-## Model/Data
+## Model
 
-- Download pre-trained arbitrary stylization models according to the ["Download models" section](https://github.com/naoto0804/pytorch-AdaIN#download-models) of the `pytorch-AdaIN` repo.
+- There are links to pre-trained arbitrary stylization models in the ["Download models" section](https://github.com/naoto0804/pytorch-AdaIN#download-models) of `pytorch-AdaIN`. By default, `renderloop.py` assumes that these models are stored in the `pytorch-AdaIN/models` folder. If you save them elsewhere, specify their paths using the `--vgg_ckpt_path` and `--decoder_ckpt_path` command-line options.
 
 ## Code
 
-Your code for generating your project:
-- Python: generative_code.py
+- `renderloop.py`: The main file. Launches the rendering loop.
+- `image_styler.py`: Arbitrary stylization class, adapted from the [`pytorch-AdaIN` evaluation example](https://github.com/naoto0804/pytorch-AdaIN/blob/master/test.py).
 
 ## Usage
 
@@ -56,7 +56,7 @@ I get X FPS with regular mode, X FPS with fast mode (X resolution, X hardware).
 
 ## Technical Notes
 
-- This project requires PyTorch and [Panda3D](https://www.panda3d.org/) and has been tested locally with Python 3.6/Ubuntu 18.04. Ideally you will also have a GPU, because stylization is probably very slow otherwise, meaning the app might no longer run in real-time.
+- This project requires PyTorch, [Panda3D](https://www.panda3d.org/), [`lycon`](https://github.com/ethereon/lycon), and [`pynput`](https://pypi.org/project/pynput/). It has been tested locally with Python 3.6 and Ubuntu 18.04. Ideally you will also have a GPU, because the app might not run in real-time otherwise.
 
 ## References
 
@@ -67,4 +67,4 @@ I get X FPS with regular mode, X FPS with fast mode (X resolution, X hardware).
 - Other
   - [Panda3D Manual](https://www.panda3d.org/manual/)
   - [NumPy arrays from Panda3D textures - gist by Alex Lee](https://gist.github.com/alexlee-gk/b28fb962c9b2da586d1591bac8888f1f)
-  - [The chicken model was made by SHULDYAKOV.](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316)
+  - The chicken model was made by SHULDYAKOV [(link)](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316).
