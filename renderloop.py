@@ -102,6 +102,7 @@ class BeautyApp(ShowBase):
         self.chicken.setTexture(
             self.loader.loadTexture('scene/chicken_01.tga'), 1)
         self.chicken.setP(self.chicken, 90)
+        self.chicken.setR(self.chicken, -15)
 
         # Needed for camera image
         self.dr = self.camNode.getDisplayRegion(0)
@@ -149,8 +150,9 @@ if __name__ == '__main__':
     scene_scale = 150
     start_time = time.time()
 
-    # init height to 3
-    app.cam.setPos(0, 0, 3)
+    # initial cam extrinsics
+    app.cam.setPos(42, -40, 3)
+    app.cam.setHpr(18, 0, 0)
 
     # cache chicken pos
     chicken_pos = app.chicken.getPos()
