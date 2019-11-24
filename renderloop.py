@@ -7,12 +7,12 @@ from direct.showbase.ShowBase import ShowBase
 from panda3d.core import loadPrcFileData
 from image_styler import ImageStyler
 
-loadPrcFileData('', 'show-frame-rate-meter true')
+loadPrcFileData('', 'window-type offscreen')
 loadPrcFileData('', 'sync-video 0')
 
 
-def show_rgb_image(image, window_name='in pursuit of beauty', delay=1):
-    # reminder: image should be in BGR format
+def show_rgb_image(image, window_name, delay=1):
+    # image should be in BGR format
     cv2.imshow(window_name, image)
     key = cv2.waitKey(delay)
     key &= 255
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     style = imageio.imread('pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg')
 
     app = BeautyApp()
+    window_name = 'IN PURSUIT OF BEAUTY'
 
     frames = 1800
     radius = 20
@@ -82,7 +83,9 @@ if __name__ == '__main__':
         image = np.transpose(image.numpy().squeeze(), (1, 2, 0))
         image = image[:, :, ::-1]  # RGB -> BGR
 
-        show_rgb_image(image)
+        exit_request = show_rgb_image(image, window_name)
+        if exit_request:
+            break
 
     end_time = time.time()
-    print('average FPS: {}'.format(frames / (end_time - start_time)))
+    print('average FPS: {}'.format(t / (end_time - start_time)))

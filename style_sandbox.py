@@ -3,7 +3,6 @@ import imageio
 import argparse
 import numpy as np
 from image_styler import ImageStyler
-from skimage.transform import resize
 import lycon
 
 if __name__ == '__main__':
