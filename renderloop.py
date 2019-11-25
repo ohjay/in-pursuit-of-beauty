@@ -97,7 +97,7 @@ class BeautyApp(ShowBase):
         # add chicken model
         self.chicken = self.loader.loadModel('scene/chicken_01.obj')
         self.chicken.reparentTo(self.render)
-        self.chicken.setScale(0.1, 0.1, 0.1)
+        self.chicken.setScale(0.09, 0.09, 0.09)
         self.chicken.setTexture(
             self.loader.loadTexture('scene/chicken_01.tga'), 1)
         self.chicken.setP(self.chicken, 90)
