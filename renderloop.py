@@ -139,7 +139,7 @@ if __name__ == '__main__':
     styles = [
         imageio.imread('pytorch-AdaIN/input/style/en_campo_gris.jpg'),
         imageio.imread('pytorch-AdaIN/input/style/la_muse.jpg'),
-    ]
+    ]  # assumption: order is (1) less beautiful, (2) more beautiful
     for i in range(len(styles)):
         styles[i] = lycon.resize(styles[i],
                                  width=WINDOW_W,
