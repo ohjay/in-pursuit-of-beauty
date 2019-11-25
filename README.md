@@ -59,6 +59,14 @@ I get X FPS with regular mode, X FPS with fast mode (X resolution, X hardware).
 ## Technical Notes
 
 - This project requires PyTorch, [Panda3D](https://www.panda3d.org/), [`lycon`](https://github.com/ethereon/lycon), and [`pynput`](https://pypi.org/project/pynput/). It has been tested locally with Python 3.6 and Ubuntu 18.04. Ideally you will also have a GPU, because the app might not run in real-time otherwise.
+- If you only have a CPU, you can try running the program with the `--tiny` flag (uses a smaller resolution).
+- If you're running this on macOS, you should invoke `python3 renderloop.py` with sudo. Otherwise keyboard monitoring won't work due to security restrictions (see [here](https://pynput.readthedocs.io/en/latest/limitations.html#mac-osx)).
+
+## Other Stuff I Tried
+
+- In-browser scene stylization using the [Magenta.js port](https://github.com/tensorflow/magenta-js/tree/master/image) of [this repo](https://github.com/reiinakano/arbitrary-image-stylization-tfjs). Too slow for real-time, though.
+- Other scenes, with random chicken locations. I was able to load the other scenes ([this one](https://www.turbosquid.com/3d-models/free-abandoned-bar-1-3d-model/1098424), for example), but decided it wasn't worth the trouble to map out valid object locations.
+- Downsizing, then stylizing, then upsizing. Faster, but with an unacceptable quality drop.
 
 ## References
 

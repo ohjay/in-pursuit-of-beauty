@@ -9,14 +9,6 @@ from image_styler import ImageStyler
 from pynput import keyboard
 import lycon
 
-WINDOW_W = 600
-WINDOW_H = 450
-
-loadPrcFileData('', 'window-type offscreen')
-loadPrcFileData('', 'sync-video 0')
-loadPrcFileData('', 'load-file-type p3assimp')
-loadPrcFileData('', 'win-size {w} {h}'.format(w=WINDOW_W, h=WINDOW_H))
-
 KEY_A = keyboard.KeyCode.from_char('a')
 KEY_S = keyboard.KeyCode.from_char('s')
 
@@ -131,9 +123,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--vgg_ckpt_path',     type=str, default='pytorch-AdaIN/models/vgg_normalised.pth')
     parser.add_argument('--decoder_ckpt_path', type=str, default='pytorch-AdaIN/models/decoder.pth')
-    parser.add_argument('--fast', action='store_true')
+    parser.add_argument('--tiny', action='store_true')
     parser.add_argument('--no_style', action='store_true')
     args = parser.parse_args()
+
+    WINDOW_W = 200 if args.tiny else 600
+    WINDOW_H = 150 if args.tiny else 450
+
+    loadPrcFileData('', 'window-type offscreen')
+    loadPrcFileData('', 'sync-video 0')
+    loadPrcFileData('', 'load-file-type p3assimp')
+    loadPrcFileData('', 'win-size {w} {h}'.format(w=WINDOW_W, h=WINDOW_H))
 
     styler = ImageStyler(args.vgg_ckpt_path, args.decoder_ckpt_path)
     styles = [
@@ -156,6 +156,9 @@ if __name__ == '__main__':
     if not args.no_style:
         pos_step *= 2  # stylization is slow
         yaw_step *= 2  # so: speed things up
+    if args.tiny:
+        pos_step *= 2
+        yaw_step *= 2
     scene_scale = 150
     start_time = time.time()
 
