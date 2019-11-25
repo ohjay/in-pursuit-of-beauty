@@ -34,13 +34,14 @@ class OutputWindow:
             'yaw-left':  False,
             'yaw-right': False
         }
+        self.take_snapshot = False
 
         self.listener = keyboard.Listener(
             on_press=self.on_key_press,
             on_release=self.on_key_release)
         self.listener.start()
 
-    def show_rgb_image(self, image, delay=1):
+    def show_bgr_image(self, image, delay=1):
         # image should be in BGR format
         cv2.imshow(self.window_name, image)
         key = cv2.waitKey(delay)
@@ -83,6 +84,8 @@ class OutputWindow:
             self.is_pressed['yaw-left'] = False
         elif key == KEY_S:
             self.is_pressed['yaw-right'] = False
+        elif key == keyboard.Key.space:
+            self.take_snapshot = True
 
 
 class BeautyApp(ShowBase):
@@ -163,8 +166,20 @@ if __name__ == '__main__':
     # cache chicken pos
     chicken_pos = app.chicken.getPos()
 
+    image = None
     for t in range(frames):
         update = (t == 0)
+
+        if image is not None and output_window.take_snapshot:
+            original_path = 'frame%d_original.png' % (t - 1)
+            imageio.imwrite(original_path, app.get_camera_image())
+            print('Wrote `%s`.' % original_path)
+            if not args.no_style:
+                stylized_path = 'frame%d_stylized.png' % (t - 1)
+                imageio.imwrite(stylized_path,
+                    (np.clip(image[:, :, ::-1], 0, 1) * 255).astype(np.uint8))
+                print('Wrote `%s`.' % stylized_path)
+            output_window.take_snapshot = False
 
         # update yaw
         if output_window.is_pressed['yaw-left']:
@@ -236,7 +251,7 @@ if __name__ == '__main__':
             image = image[:, :, ::-1]  # RGB -> BGR
 
         # show
-        if not output_window.show_rgb_image(image):
+        if not output_window.show_bgr_image(image):
             break
 
     end_time = time.time()
