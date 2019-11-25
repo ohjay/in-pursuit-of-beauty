@@ -40,6 +40,8 @@ I have intended for this project to characterize the relative and subjective nat
 
 ## Usage
 
+Download `chicken_01.obj` and `chicken_01.tga` from TurboSquid ([link](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316)) and place them in the `scene/` folder. Download the pre-trained models according to the [Model section](https://github.com/ohjay/in-pursuit-of-beauty#model). Install [requirements](https://github.com/ohjay/in-pursuit-of-beauty/blob/master/requirements.txt). Buy a GPU. Now you are ready to run
+
 ```
 python3 renderloop.py
 ```
