@@ -29,6 +29,8 @@ I have intended for this project to characterize the relative and subjective nat
 
 - Interactive drum-esque music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and determine stylization. Could also control stylization with phone orientation in this project. As the phone aligns more and more with a certain direction, the image becomes more beautiful (or less chaotic). Symbolizes chaos that results from loss of control.
 
+- Temporal consistency. Have network take multiple images. Following [this paper](https://arxiv.org/pdf/1604.08610.pdf), compute motion field and disocclusion mask between each pair of consecutive frames, warp each stylized t-1 frame into t frame, enforce MSE loss between warped stylized t-1 frames and stylized t frames in unmasked regions during training.
+
 ## Model
 
 - There are links to pre-trained arbitrary stylization models in the ["Download models" section](https://github.com/naoto0804/pytorch-AdaIN#download-models) of `pytorch-AdaIN`. By default, `renderloop.py` assumes that these models are stored in the `pytorch-AdaIN/models` folder. If you save them elsewhere, specify their paths using the `--vgg_ckpt_path` and `--decoder_ckpt_path` command-line options.
