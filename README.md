@@ -27,7 +27,7 @@ I have intended for this project to characterize the relative and subjective nat
 
 - Add music as well. Associate some relevant music with each stylization extreme (e.g. "most beautiful" aligns with beautiful-sounding music), and use MusicVAE to interpolate between the sounds as the user walks through the scene (MIDI is fine, synthesize using something simple). The main problem is doing all of this in real-time.
 
-- Interactive drum-esque music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and decide stylization. Could also control stylization with phone orientation in this project. As the phone aligns more and more with a certain direction, the image becomes more beautiful (or less chaotic). Symbolizes chaos that results from loss of control.
+- Interactive drum-esque music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and determine stylization. Could also control stylization with phone orientation in this project. As the phone aligns more and more with a certain direction, the image becomes more beautiful (or less chaotic). Symbolizes chaos that results from loss of control.
 
 ## Model
 
@@ -53,7 +53,7 @@ python3 renderloop.py
 
 ## Results
 
-The following movie (click the image) is a usage demonstration. I describe the project in the accompanying voiceover.
+The following video (click the image) is a usage demonstration. I describe the project in the accompanying voiceover.
 
 [![video](https://i.imgur.com/strVX4D.png)](https://youtu.be/6i85Kdb4tQ0)
 
