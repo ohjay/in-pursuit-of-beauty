@@ -53,11 +53,11 @@ python3 renderloop.py
 
 ## Results
 
-Documentation of your results in an appropriate format, both links to files and a brief description of their contents:
-- image files (`.jpg`, `.png` or whatever else is appropriate)
-- movie files (uploaded to YouTube due to GitHub file size limits)
+The following movie (click the image) is a usage demonstration. I describe the project in the accompanying voiceover.
 
-I get X FPS with regular mode, X FPS with fast mode (X resolution, X hardware).
+[![video](https://i.imgur.com/strVX4D.png)](https://youtu.be/6i85Kdb4tQ0)
+
+With stylization, I get 11 FPS in regular mode (600x450) and 61 FPS in tiny mode (200x150).
 
 ## Technical Notes
 
