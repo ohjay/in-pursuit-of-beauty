@@ -138,7 +138,7 @@ if __name__ == '__main__':
     styler = ImageStyler(args.vgg_ckpt_path, args.decoder_ckpt_path)
     styles = [
         imageio.imread('pytorch-AdaIN/input/style/en_campo_gris.jpg'),
-        imageio.imread('pytorch-AdaIN/input/style/woman_with_hat_matisse.jpg'),
+        imageio.imread('pytorch-AdaIN/input/style/la_muse.jpg'),
     ]
     for i in range(len(styles)):
         styles[i] = lycon.resize(styles[i],

@@ -2,6 +2,8 @@
 
 Owen Jow, owen@eng.ucsd.edu
 
+![teaser](https://raw.githubusercontent.com/ohjay/in-pursuit-of-beauty/master/teaser.png)
+
 ## Abstract
 
 In this program, users can interactively walk around a stylized 3D scene. The idea is that some parts of the scene are intentionally stylized to be "more beautiful" than others, and a user can, if he/she chooses, search for this beauty. To this aim, I place a target object somewhere in the scene. The closer and more oriented toward the object the camera is, the more "beautiful" the scene will become. In keeping with a theme from my previous projects, I make the target object a [chicken](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316) because chickens are beautiful.
