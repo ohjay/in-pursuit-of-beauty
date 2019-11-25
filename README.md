@@ -4,11 +4,11 @@ Owen Jow, owen@eng.ucsd.edu
 
 ## Abstract
 
-I create a 3D scene, along with a corresponding top-down stylization map that describes how each part of the scene should be stylized. The map is smooth; I mark points in the scene which will have certain style targets, and interpolate between those style targets (weighted by distance) to arrive at the final desired style for each location. Then, I allow users to interactively walk around the scene, with the final rendering for each viewpoint determined as a stylized version of a fast Panda3D render. The idea is that some parts of the scene are intentionally stylized to be "more beautiful" than others, and the user can, if he/she chooses, search for this beauty. Also, in keeping with a theme from my past projects, I include a [chicken](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316) in the scene, which is the target (and the high point) in the search because chickens are beautiful.
+In this program, users can interactively walk around a stylized 3D scene. The main idea is that some parts of the scene are intentionally stylized to be "more beautiful" than others, and a user can, if he/she chooses, search for this beauty. To this aim, I place a target object somewhere in the scene. The closer and more oriented toward the object the camera is, the more "beautiful" the scene will become. In keeping with a theme from my previous projects, I make the target a [chicken](https://www.turbosquid.com/3d-models/christmas-chicken-grey-art-3d-1266316) because chickens are beautiful.
 
-I use [Panda3D](https://www.panda3d.org/) for rendering, and [`pytorch-AdaIN`](https://github.com/naoto0804/pytorch-AdaIN) for arbitrary style transfer.
+I use [Panda3D](https://www.panda3d.org/) for initial rendering, and [`pytorch-AdaIN`](https://github.com/naoto0804/pytorch-AdaIN) for arbitrary style transfer. In accordance with the approach from [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/pdf/1703.06868.pdf), I interpolate between two styles' feature maps before decoding each frame. In my eyes, one of these styles always has a greater aesthetic value than the other.
 
-Also (artistic interpretations): characterizes the subjective and relative nature of beauty. If I intentionally try to make things less beautiful, it may make other things appear more beautiful by comparison. Furthermore, the chicken only represents my subjective preference for the aesthetic quality of that stylization; others may find other parts of the scene more or less beautiful and that is okay too. Finally, raises another question about beauty: how much is about style, how much is about content?
+I have intended for this project to characterize the relative and subjective nature of beauty. If I deliberately try to make things less beautiful, it might make other things appear more beautiful by comparison. Furthermore, when I say that some stylized views are more beautiful than others, it is only my own preference; others may find other parts of the scene more or less beautiful and that's okay too. Finally, the project premise and the stylization algorithm prompt the following question about beauty: how much is about style, and how much is about content?
 
 | More "Beautiful" | Less "Beautiful"     |
 | ---------------- | -------------------- |
@@ -25,7 +25,7 @@ Also (artistic interpretations): characterizes the subjective and relative natur
 
 - Add music as well. Associate some relevant music with each stylization extreme (e.g. "most beautiful" aligns with beautiful-sounding music), and use MusicVAE to interpolate between the sounds as the user walks through the scene (MIDI is fine, synthesize using something simple). The main problem is doing all of this in real-time.
 
-- Interactive drum-type music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and determine stylization. Could also control stylization with phone motion in this project. If pointed upward (or in a specific direction), more beautiful (or less chaotic). If pointed downward, less beautiful (or more chaotic). Symbolizes discipline and the chaos that results from loss of control. This could be an additional option which would switch from stylizing based on the top-down map.
+- Interactive drum-esque music with stylization. Use WebGL/Babylon alongside phone and WebSockets to play music with motion and decide stylization. Could also control stylization with phone orientation in this project. As the phone aligns more and more with a certain direction, the image becomes more beautiful (or less chaotic). Symbolizes chaos that results from loss of control.
 
 ## Model
 
