@@ -156,9 +156,9 @@ if __name__ == '__main__':
     if not args.no_style:
         pos_step *= 2  # stylization is slow
         yaw_step *= 2  # so: speed things up
-    if args.tiny:
-        pos_step *= 2
-        yaw_step *= 2
+        if args.tiny:
+            pos_step *= 2
+            yaw_step *= 2
     scene_scale = 150
     start_time = time.time()
 
