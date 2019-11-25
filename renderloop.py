@@ -192,33 +192,42 @@ if __name__ == '__main__':
             app.cam.setHpr(app.cam.getH() - yaw_step, 0, 0)
             update = True
 
+        # update pos: diagonal prep
+        lr_pressed = output_window.is_pressed['left'] or \
+                     output_window.is_pressed['right']
+        ud_pressed = output_window.is_pressed['forward'] or \
+                     output_window.is_pressed['backward']
+        pos_step_adjusted = pos_step
+        if lr_pressed and ud_pressed:
+            pos_step_adjusted /= np.sqrt(2)
+
         # update pos
         if output_window.is_pressed['left']:
             right = app.render.getRelativeVector(app.cam, Vec3(1, 0, 0))
             curr_pos = app.cam.getPos()
-            new_x = curr_pos.x - right.x * pos_step
-            new_y = curr_pos.y - right.y * pos_step
+            new_x = curr_pos.x - right.x * pos_step_adjusted
+            new_y = curr_pos.y - right.y * pos_step_adjusted
             app.cam.setPos(new_x, new_y, 3)
             update = True
         elif output_window.is_pressed['right']:
             right = app.render.getRelativeVector(app.cam, Vec3(1, 0, 0))
             curr_pos = app.cam.getPos()
-            new_x = curr_pos.x + right.x * pos_step
-            new_y = curr_pos.y + right.y * pos_step
+            new_x = curr_pos.x + right.x * pos_step_adjusted
+            new_y = curr_pos.y + right.y * pos_step_adjusted
             app.cam.setPos(new_x, new_y, 3)
             update = True
         if output_window.is_pressed['forward']:
             forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
             curr_pos = app.cam.getPos()
-            new_x = curr_pos.x + forward.x * pos_step
-            new_y = curr_pos.y + forward.y * pos_step
+            new_x = curr_pos.x + forward.x * pos_step_adjusted
+            new_y = curr_pos.y + forward.y * pos_step_adjusted
             app.cam.setPos(new_x, new_y, 3)
             update = True
         elif output_window.is_pressed['backward']:
             forward = app.render.getRelativeVector(app.cam, Vec3(0, 1, 0))
             curr_pos = app.cam.getPos()
-            new_x = curr_pos.x - forward.x * pos_step
-            new_y = curr_pos.y - forward.y * pos_step
+            new_x = curr_pos.x - forward.x * pos_step_adjusted
+            new_y = curr_pos.y - forward.y * pos_step_adjusted
             app.cam.setPos(new_x, new_y, 3)
             update = True
 

@@ -47,6 +47,7 @@ python3 renderloop.py
 - You can change the camera position with the arrow keys.
 - You can change the camera yaw with the A and S keys.
 - You can quit the program using Q or ESC.
+- You can save a snapshot by hitting the spacebar.
 
 ## Results
 
