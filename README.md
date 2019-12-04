@@ -57,7 +57,7 @@ python3 renderloop.py
 
 The following video (click the image) is a usage demonstration. I describe the project in the accompanying voiceover.
 
-[![video](https://i.imgur.com/strVX4D.png)](https://youtu.be/6i85Kdb4tQ0)
+[![video](https://i.imgur.com/strVX4D.png)](https://youtu.be/uckFy1UpYXI)
 
 With stylization, I get 11 FPS in regular mode (600x450) and 61 FPS in tiny mode (200x150).
 
